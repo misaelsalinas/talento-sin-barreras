@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talento Sin Barreras</title>
+<meta name="description" content="Academia y bolsa de empleo digital inclusiva para jóvenes con discapacidad en la Ciudad de México. Sitio diseñado con la metodología POUR.">
+<style>
+  :root{
+    --crimson:#A9283A;        /* primario (logo UVM) */
+    --crimson-dark:#8A1F2E;   /* hover / foco */
+    --cream:#FDF8F6;          /* fondo */
+    --surface:#FFFFFF;        /* tarjetas */
+    --salmon:#F5A3A5;         /* acento */
+    --salmon-soft:#FBE0E1;    /* acento suave */
+    --ink:#241F20;            /* texto principal (alto contraste) */
+    --muted:#544B4C;          /* texto secundario */
+    --line:#E4D8D5;           /* bordes */
+    --focus:#0B4F9C;          /* anillo de foco visible */
+    --radius:14px;
+    --maxw:1080px;
+    --fs:100%;                /* escala de texto ajustable */
+  }
+  /* Modo alto contraste (activable por el usuario) */
+  :root[data-contrast="alto"]{
+    --crimson:#7A0E1F;
+    --crimson-dark:#5E0A18;
+    --cream:#FFFFFF;
+    --surface:#FFFFFF;
+    --salmon:#FFFFFF;
+    --salmon-soft:#FFFFFF;
+    --ink:#000000;
+    --muted:#1A1A1A;
+    --line:#000000;
+    --focus:#0033CC;
+  }
+  *{box-sizing:border-box}
+  html{font-size:var(--fs)}
+  body{
+    margin:0;background:var(--cream);color:var(--ink);
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,system-ui,sans-serif;
+    line-height:1.6;font-size:1.05rem;
+  }
+  :root[data-contrast="alto"] body{background:#fff}
+  h1,h2,h3{line-height:1.25;font-weight:700;color:var(--ink)}
+  h1{font-size:2.1rem;margin:.2em 0 .3em}
+  h2{font-size:1.5rem;margin:1.4em 0 .5em}
+  h3{font-size:1.15rem;margin:1.1em 0 .4em}
+  p{margin:.5em 0 .9em;max-width:70ch}
+  a{color:var(--crimson-dark);font-weight:600}
+  a:hover{text-decoration:underline}
+  /* Foco visible fuerte para todos los elementos interactivos (Operable) */
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+    outline:3px solid var(--focus);outline-offset:2px;border-radius:6px;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+  /* Enlace "saltar al contenido" (Operable) */
+  .skip{position:absolute;left:12px;top:-60px;background:var(--crimson);color:#fff;
+    padding:10px 16px;border-radius:0 0 10px 10px;z-index:100;transition:top .15s;font-weight:700}
+  .skip:focus{top:0;color:#fff;text-decoration:none}
+
+  /* Barra de accesibilidad */
+  .a11y-bar{background:var(--ink);color:#fff}
+  :root[data-contrast="alto"] .a11y-bar{background:#000;border-bottom:2px solid #000}
+  .a11y-bar .wrap{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:flex-end;padding-top:8px;padding-bottom:8px}
+  .a11y-bar span.lbl{margin-right:auto;font-size:.9rem;color:#fff;display:flex;align-items:center;gap:8px}
+  .a11y-bar button{
+    background:transparent;color:#fff;border:2px solid #fff;border-radius:8px;
+    padding:6px 12px;font-size:.95rem;font-weight:700;cursor:pointer;min-height:40px
+  }
+  .a11y-bar button:hover{background:#fff;color:var(--ink)}
+  .a11y-bar button[aria-pressed="true"]{background:var(--salmon);color:#000;border-color:#fff}
+
+  /* Encabezado y navegación */
+  header.top{background:var(--surface);border-bottom:1px solid var(--line);position:relative}
+  :root[data-contrast="alto"] header.top{border-bottom:2px solid #000}
+  .top .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-top:14px;padding-bottom:14px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-weight:800;font-size:1.25rem}
+  .brand .mark{width:42px;height:42px;flex:0 0 auto}
+  nav.main{margin-left:auto}
+  nav.main ul{list-style:none;display:flex;flex-wrap:wrap;gap:4px;margin:0;padding:0}
+  nav.main a{
+    display:block;padding:12px 14px;border-radius:10px;color:var(--ink);
+    text-decoration:none;font-weight:600;min-height:44px
+  }
+  nav.main a:hover{background:var(--salmon-soft)}
+  nav.main a[aria-current="page"]{background:var(--crimson);color:#fff}
+  :root[data-contrast="alto"] nav.main a[aria-current="page"]{background:#000;color:#fff}
+  :root[data-contrast="alto"] nav.main a{border:1px solid #000;margin:1px}
+
+  /* Secciones = "páginas" */
+  main{display:block}
+  .page[hidden]{display:none}
+  .page{padding:34px 0 60px;animation:fade .2s ease}
+  @keyframes fade{from{opacity:.4}to{opacity:1}}
+
+  /* Hero */
+  .hero{background:linear-gradient(180deg,var(--salmon-soft),var(--cream));border-bottom:1px solid var(--line)}
+  :root[data-contrast="alto"] .hero{background:#fff;border-bottom:2px solid #000}
+  .hero .wrap{padding:48px 20px 44px}
+  .hero .eyebrow{display:inline-block;background:var(--crimson);color:#fff;font-weight:700;
+    padding:6px 14px;border-radius:999px;font-size:.9rem;margin-bottom:14px}
+  .hero p.lead{font-size:1.2rem;color:var(--muted);max-width:60ch}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;background:var(--crimson);color:#fff;
+    text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px;border:2px solid var(--crimson);
+    min-height:48px;cursor:pointer;font-size:1.05rem
+  }
+  .btn:hover{background:var(--crimson-dark);border-color:var(--crimson-dark);text-decoration:none;color:#fff}
+  .btn.ghost{background:transparent;color:var(--crimson-dark)}
+  .btn.ghost:hover{background:var(--salmon-soft);color:var(--crimson-dark)}
+
+  /* Tarjetas / rejillas */
+  .grid{display:grid;gap:18px;margin:18px 0}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+  :root[data-contrast="alto"] .card{border:2px solid #000}
+  .card h3{margin-top:0;display:flex;align-items:center;gap:10px}
+  .ico{width:26px;height:26px;flex:0 0 auto;color:var(--crimson)}
+  :root[data-contrast="alto"] .ico{color:#000}
+
+  .callout{background:var(--salmon-soft);border-left:6px solid var(--crimson);border-radius:10px;padding:16px 20px;margin:18px 0}
+  :root[data-contrast="alto"] .callout{background:#fff;border:2px solid #000;border-left:8px solid #000}
+
+  ul.clean{padding-left:1.2em}
+  ul.clean li{margin:.35em 0}
+
+  /* Tabla de servicios */
+  .table-scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:560px;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  caption{text-align:left;font-weight:700;padding:8px 0;color:var(--muted)}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--crimson);color:#fff;font-size:1rem}
+  tbody tr:nth-child(even){background:var(--salmon-soft)}
+  :root[data-contrast="alto"] tbody tr:nth-child(even){background:#fff}
+  :root[data-contrast="alto"] th,:root[data-contrast="alto"] td{border:1px solid #000}
+  .price{font-weight:700;white-space:nowrap}
+  .free{display:inline-block;background:#1A6B3C;color:#fff;padding:2px 10px;border-radius:999px;font-size:.85rem;font-weight:700}
+  :root[data-contrast="alto"] .free{background:#000;color:#fff}
+
+  /* Formulario accesible */
+  form{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;max-width:620px}
+  :root[data-contrast="alto"] form{border:2px solid #000}
+  .field{margin-bottom:18px}
+  label{display:block;font-weight:700;margin-bottom:6px}
+  .req{color:var(--crimson-dark)}
+  input,textarea,select{
+    width:100%;padding:12px 14px;font-size:1.05rem;border:2px solid var(--line);border-radius:10px;
+    background:#fff;color:var(--ink);font-family:inherit;min-height:48px
+  }
+  :root[data-contrast="alto"] input,:root[data-contrast="alto"] textarea,:root[data-contrast="alto"] select{border:2px solid #000}
+  .hint{font-size:.9rem;color:var(--muted);margin-top:6px}
+  .err{color:var(--crimson-dark);font-weight:700;margin-top:6px;display:none}
+  .field.invalid input,.field.invalid textarea{border-color:var(--crimson)}
+  .field.invalid .err{display:block}
+  .ok-msg{display:none;background:#E7F5EC;border:2px solid #1A6B3C;color:#0E4A28;
+    padding:14px 18px;border-radius:10px;margin-top:16px;font-weight:600}
+  :root[data-contrast="alto"] .ok-msg{background:#fff;border:2px solid #000;color:#000}
+
+  /* Pie */
+  footer.site{background:var(--ink);color:#fff;margin-top:40px}
+  :root[data-contrast="alto"] footer.site{background:#000;border-top:2px solid #000}
+  footer.site .wrap{padding:28px 20px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
+  footer.site a{color:#fff}
+  footer .brand-f{font-weight:800;font-size:1.1rem}
+  .redbar{height:8px;background:linear-gradient(90deg,var(--crimson),var(--salmon))}
+  :root[data-contrast="alto"] .redbar{background:#000}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:16px 0}
+  .steps li{position:relative;padding:14px 14px 14px 60px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:10px 0}
+  :root[data-contrast="alto"] .steps li{border:2px solid #000}
+  .steps li::before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:14px;
+    width:34px;height:34px;background:var(--crimson);color:#fff;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-weight:700}
+  :root[data-contrast="alto"] .steps li::before{background:#000}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .tag{display:inline-block;background:var(--salmon-soft);color:var(--crimson-dark);border:1px solid var(--salmon);
+    padding:3px 10px;border-radius:999px;font-size:.85rem;font-weight:700;margin:2px 4px 2px 0}
+</style>
+</head>
+<body>
+
+<!-- Operable: enlace para saltar directamente al contenido -->
+<a class="skip" href="#contenido">Saltar al contenido principal</a>
+
+<!-- Barra de accesibilidad: controles de tamaño de texto y contraste -->
+<div class="a11y-bar" role="region" aria-label="Herramientas de accesibilidad">
+  <div class="wrap">
+    <span class="lbl">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color:#fff;width:20px;height:20px"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+      Accesibilidad:
+    </span>
+    <button type="button" id="tMinus" aria-label="Reducir el tamaño del texto">A−</button>
+    <button type="button" id="tReset" aria-label="Restablecer el tamaño del texto">A</button>
+    <button type="button" id="tPlus" aria-label="Aumentar el tamaño del texto">A+</button>
+    <button type="button" id="contrast" aria-pressed="false">Alto contraste</button>
+  </div>
+</div>
+
+<!-- Encabezado con logo (Operable: el logo regresa al inicio) -->
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" data-nav aria-label="Talento Sin Barreras, ir a la página de inicio">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Logotipo de Talento Sin Barreras">
+        <circle cx="24" cy="24" r="23" fill="#A9283A"/>
+        <path d="M14 30c4-10 16-10 20 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="24" cy="16" r="4.5" fill="#fff"/>
+      </svg>
+      <span>Talento Sin Barreras</span>
+    </a>
+    <nav class="main" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#inicio"    data-nav>Inicio</a></li>
+        <li><a href="#formacion" data-nav>Formación</a></li>
+        <li><a href="#empresas"  data-nav>Empresas</a></li>
+        <li><a href="#cursos"    data-nav>Cursos y costos</a></li>
+        <li><a href="#nosotros"  data-nav>Nosotros</a></li>
+        <li><a href="#contacto"  data-nav>Contacto</a></li>
+        <li><a href="#accesibilidad" data-nav>Accesibilidad</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="redbar" aria-hidden="true"></div>
+
+<main id="contenido" tabindex="-1">
+
+  <!-- ===================== INICIO / HOMEPAGE ===================== -->
+  <section id="inicio" class="page" aria-labelledby="h-inicio">
+    <div class="hero">
+      <div class="wrap">
+        <span class="eyebrow">Academia + Bolsa de empleo digital inclusiva</span>
+        <h1 id="h-inicio">Talento Sin Barreras</h1>
+        <p class="lead">Formación digital gratuita y empleo remoto para jóvenes con discapacidad visual o motriz en la Ciudad de México. Aprende, certifícate y conéctate con empresas, sin salir de casa.</p>
+        <div class="cta-row">
+          <a class="btn" href="#formacion" data-nav>
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+            Soy talento: quiero formarme
+          </a>
+          <a class="btn ghost" href="#empresas" data-nav>
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21h18M6 21V8l6-4 6 4v13"/></svg>
+            Soy empresa: quiero contratar
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <h2>¿Qué encontrarás aquí?</h2>
+      <div class="grid g3">
+        <div class="card">
+          <h3><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>Formación becada</h3>
+          <p>Cursos de competencias digitales con opción de certificación reconocida, diseñados para hacerse en línea.</p>
+          <p><a href="#formacion" data-nav>Ver cómo funciona la formación</a></p>
+        </div>
+        <div class="card">
+          <h3><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-8 0v2M12 7a3 3 0 100-6 3 3 0 000 6z"/></svg>Bolsa de empleo</h3>
+          <p>Crea tu perfil y postúlate a vacantes remotas con empresas comprometidas con la inclusión.</p>
+          <p><a href="#cursos" data-nav>Ver servicios y costos</a></p>
+        </div>
+        <div class="card">
+          <h3><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12a8 8 0 10-8 8M12 8v4l3 2"/></svg>Acompañamiento</h3>
+          <p>Asesoría laboral y seguimiento durante tu búsqueda de empleo, con soporte accesible.</p>
+          <p><a href="#nosotros" data-nav>Conoce el modelo</a></p>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>Un sitio diseñado para todas las personas.</strong> Como nuestras usuarias y usuarios son personas con discapacidad, el sitio aplica la metodología <abbr title="Perceptible, Operable, Comprensible y Robusto">POUR</abbr>.
+        <a href="#accesibilidad" data-nav>Conoce nuestro compromiso de accesibilidad</a>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORMACIÓN ===================== -->
+  <section id="formacion" class="page" hidden aria-labelledby="h-formacion">
+    <div class="wrap">
+      <h1 id="h-formacion">Formación para el talento</h1>
+      <p class="lead">Aprende competencias digitales que el mercado demanda y prepárate para un empleo remoto digno.</p>
+
+      <h2>¿Cómo funciona?</h2>
+      <ol class="steps">
+        <li><strong>Regístrate gratis.</strong> Crea tu perfil en línea con un formulario accesible.</li>
+        <li><strong>Toma el curso básico sin costo.</strong> Habilidades laborales, CV y preparación para entrevistas.</li>
+        <li><strong>Especialízate y certifícate.</strong> Elige cursos avanzados y obtén tu constancia.</li>
+        <li><strong>Postúlate a vacantes.</strong> Conéctate con empresas a través de la bolsa de empleo.</li>
+        <li><strong>Recibe seguimiento.</strong> Asesoría y acompañamiento durante tu búsqueda.</li>
+      </ol>
+
+      <h2>Beneficios para egresados</h2>
+      <p>Las y los alumnos que terminan sus cursos pueden recibir:</p>
+      <div class="grid g2">
+        <div class="card">
+          <ul class="clean">
+            <li>50% de descuento en cursos avanzados.</li>
+            <li>20% de descuento en certificaciones.</li>
+            <li>Acceso a promociones especiales.</li>
+            <li>Asesoría laboral con precio preferencial.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="clean">
+            <li>Acceso prioritario a nuevas vacantes.</li>
+            <li>Seguimiento durante su búsqueda de empleo.</li>
+            <li>Primer mes de membresía gratuito al completar determinados cursos.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn" href="#contacto" data-nav>Quiero registrarme</a>
+        <a class="btn ghost" href="#cursos" data-nav>Ver cursos y costos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EMPRESAS ===================== -->
+  <section id="empresas" class="page" hidden aria-labelledby="h-empresas">
+    <div class="wrap">
+      <h1 id="h-empresas">Para empresas</h1>
+      <p class="lead">Contrata talento diverso ya capacitado y fortalece tu estrategia de inclusión y sostenibilidad.</p>
+      <div class="grid g3">
+        <div class="card">
+          <h3>Talento capacitado</h3>
+          <p>Accede a una cartera de personas formadas y certificadas en competencias digitales.</p>
+        </div>
+        <div class="card">
+          <h3>Consultoría de inclusión</h3>
+          <p>Te ayudamos a hacer accesibles tus procesos, plataformas y espacios de trabajo.</p>
+        </div>
+        <div class="card">
+          <h3>Impacto medible</h3>
+          <p>Reportes de contratación e indicadores para tus metas ESG y de responsabilidad social.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>Publicar una vacante es sencillo.</strong> Escríbenos y te acompañamos en todo el proceso de vinculación.
+        <a href="#contacto" data-nav>Contactar al equipo</a>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CURSOS Y COSTOS ===================== -->
+  <section id="cursos" class="page" hidden aria-labelledby="h-cursos">
+    <div class="wrap">
+      <h1 id="h-cursos">Cursos y costos</h1>
+      <p class="lead">Servicios pensados para que nadie quede fuera por falta de recursos: el curso básico y la bolsa de empleo son gratuitos.</p>
+      <div class="table-scroll">
+        <table>
+          <caption>Servicios, descripción y precios en pesos mexicanos (MXN)</caption>
+          <thead>
+            <tr><th scope="col">Servicio</th><th scope="col">Descripción</th><th scope="col">Precio</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Curso básico</th><td>Habilidades laborales, elaboración de CV y preparación para entrevistas.</td><td class="price"><span class="free">Gratis</span></td></tr>
+            <tr><th scope="row">Cursos especializados</th><td>Excel, atención al cliente, ventas, administración, herramientas digitales, etc.</td><td class="price">$249 – $499 MXN</td></tr>
+            <tr><th scope="row">Cursos avanzados</th><td>Capacitación más especializada y orientada a determinados puestos laborales.</td><td class="price">$499 – $799 MXN</td></tr>
+            <tr><th scope="row">Certificación</th><td>Curso + evaluación + constancia / certificado de finalización.</td><td class="price">$599 – $899 MXN</td></tr>
+            <tr><th scope="row">Asesoría laboral</th><td>Revisión de CV, preparación y simulación de entrevistas.</td><td class="price">$199 MXN por sesión</td></tr>
+            <tr><th scope="row">Bolsa de empleo</th><td>Creación de perfil, búsqueda y postulación a vacantes.</td><td class="price"><span class="free">Gratis</span></td></tr>
+            <tr><th scope="row">Membresía de egresados</th><td>Beneficios exclusivos, cursos, asesorías y descuentos.</td><td class="price">$99 MXN / mes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint">Los precios se muestran como rango porque varían según la duración y el nivel del curso.</p>
+      <div class="cta-row">
+        <a class="btn" href="#contacto" data-nav>Inscribirme a un curso</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOSOTROS ===================== -->
+  <section id="nosotros" class="page" hidden aria-labelledby="h-nosotros">
+    <div class="wrap">
+      <h1 id="h-nosotros">Nosotros</h1>
+      <p class="lead">Talento Sin Barreras es un negocio inclusivo que integra a jóvenes con discapacidad a la economía digital como empleados.</p>
+      <h2>El problema que atendemos</h2>
+      <p>En México, alrededor de 7.7 millones de personas viven con alguna discapacidad y cerca del 48% de ese grupo se encuentra en condiciones de pobreza. Tres barreras los excluyen del empleo: el transporte inaccesible, la discriminación laboral y la brecha de competencias digitales.</p>
+      <h2>Nuestra respuesta</h2>
+      <div class="grid g3">
+        <div class="card"><h3>Remoto</h3><p>El trabajo desde casa elimina la barrera del transporte en las alcaldías periféricas.</p></div>
+        <div class="card"><h3>Formación</h3><p>Cerramos la brecha digital con cursos y certificaciones accesibles.</p></div>
+        <div class="card"><h3>Vinculación</h3><p>Conectamos el talento con empresas comprometidas, combatiendo la discriminación.</p></div>
+      </div>
+      <h2>Grupo objetivo</h2>
+      <p>
+        <span class="tag">18 a 39 años</span>
+        <span class="tag">Discapacidad visual o motriz (leve a moderada)</span>
+        <span class="tag">Nivel socioeconómico D+, D y E</span>
+        <span class="tag">Iztapalapa, GAM y Tláhuac</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACTO ===================== -->
+  <section id="contacto" class="page" hidden aria-labelledby="h-contacto">
+    <div class="wrap">
+      <h1 id="h-contacto">Contacto y registro</h1>
+      <p class="lead">Déjanos tus datos y te contactaremos. Todos los campos obligatorios están marcados con un asterisco (<span class="req">*</span>) y con la palabra “obligatorio”.</p>
+      <form id="form" novalidate>
+        <div class="field" id="f-nombre">
+          <label for="nombre">Nombre completo <span class="req">*</span> <span class="visually-hidden">(obligatorio)</span></label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required aria-required="true" aria-describedby="e-nombre">
+          <p class="err" id="e-nombre">Escribe tu nombre completo para poder contactarte.</p>
+        </div>
+        <div class="field" id="f-correo">
+          <label for="correo">Correo electrónico <span class="req">*</span> <span class="visually-hidden">(obligatorio)</span></label>
+          <input id="correo" name="correo" type="email" autocomplete="email" required aria-required="true" aria-describedby="h-correo e-correo" placeholder="ejemplo@correo.com">
+          <p class="hint" id="h-correo">Lo usaremos solo para responderte sobre cursos y vacantes.</p>
+          <p class="err" id="e-correo">Escribe un correo válido, por ejemplo: nombre@correo.com.</p>
+        </div>
+        <div class="field" id="f-interes">
+          <label for="interes">¿Qué te interesa? <span class="req">*</span> <span class="visually-hidden">(obligatorio)</span></label>
+          <select id="interes" name="interes" required aria-required="true" aria-describedby="e-interes">
+            <option value="">Selecciona una opción</option>
+            <option>Registrarme como talento</option>
+            <option>Inscribirme a un curso</option>
+            <option>Contratar talento (empresa)</option>
+            <option>Consultoría de inclusión</option>
+          </select>
+          <p class="err" id="e-interes">Selecciona una opción para orientar tu solicitud.</p>
+        </div>
+        <div class="field">
+          <label for="mensaje">Mensaje (opcional)</label>
+          <textarea id="mensaje" name="mensaje" rows="4" aria-describedby="h-mensaje"></textarea>
+          <p class="hint" id="h-mensaje">Cuéntanos brevemente cómo podemos ayudarte.</p>
+        </div>
+        <button class="btn" type="submit">Enviar solicitud</button>
+        <p class="ok-msg" id="ok" role="status">¡Gracias! Tu solicitud se registró correctamente (demostración). Te contactaremos por correo.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== ACCESIBILIDAD ===================== -->
+  <section id="accesibilidad" class="page" hidden aria-labelledby="h-acc">
+    <div class="wrap">
+      <h1 id="h-acc">Compromiso de accesibilidad (POUR)</h1>
+      <p class="lead">Este sitio se diseñó con la metodología POUR para que sea usable por personas con diferentes niveles de capacidad.</p>
+      <div class="grid g2">
+        <div class="card"><h3>Perceptible</h3><p>Texto alternativo en imágenes, estructura con encabezados, alto contraste y opción para ampliar el texto. La información nunca depende solo del color.</p></div>
+        <div class="card"><h3>Operable</h3><p>Navegación completa por teclado con foco visible, enlace para saltar al contenido, botones grandes y el logotipo regresa al inicio.</p></div>
+        <div class="card"><h3>Comprensible</h3><p>Lenguaje claro y frases cortas, navegación predecible y formularios con etiquetas y mensajes de error que explican cómo corregir.</p></div>
+        <div class="card"><h3>Robusto</h3><p>Código HTML semántico y compatible con lectores de pantalla, con diseño adaptable a celular y distintos navegadores.</p></div>
+      </div>
+      <p>¿Detectaste una barrera? <a href="#contacto" data-nav>Escríbenos</a> y la corregimos.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <div class="brand-f">Talento Sin Barreras</div>
+      <p style="max-width:40ch;color:#f2e9e9">Academia y bolsa de empleo digital inclusiva · Ciudad de México</p>
+    </div>
+    <nav aria-label="Enlaces del pie de página">
+      <ul style="list-style:none;padding:0;margin:0;line-height:2">
+        <li><a href="#inicio" data-nav>Inicio</a></li>
+        <li><a href="#cursos" data-nav>Cursos y costos</a></li>
+        <li><a href="#accesibilidad" data-nav>Accesibilidad</a></li>
+        <li><a href="#contacto" data-nav>Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var PAGES = ["inicio","formacion","empresas","cursos","nosotros","contacto","accesibilidad"];
+  var TITLES = {
+    inicio:"Inicio", formacion:"Formación", empresas:"Empresas",
+    cursos:"Cursos y costos", nosotros:"Nosotros", contacto:"Contacto", accesibilidad:"Accesibilidad"
+  };
+  var main = document.getElementById("contenido");
+
+  function show(id, focus){
+    if(PAGES.indexOf(id) === -1){ id = "inicio"; }
+    PAGES.forEach(function(p){
+      var el = document.getElementById(p);
+      if(el) el.hidden = (p !== id);
+    });
+    // Marcar el enlace activo en la navegación (Operable/Comprensible)
+    document.querySelectorAll('nav.main a[href^="#"]').forEach(function(a){
+      var t = a.getAttribute("href").slice(1);
+      if(t === id){ a.setAttribute("aria-current","page"); }
+      else { a.removeAttribute("aria-current"); }
+    });
+    document.title = TITLES[id] + " · Talento Sin Barreras";
+    if(focus){
+      // Llevar el foco al inicio del contenido para lectores de pantalla
+      main.focus();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+  }
+
+  // Enrutamiento por hash: el botón "atrás" del navegador funciona (Operable)
+  function fromHash(focus){
+    var id = (location.hash || "#inicio").slice(1);
+    show(id, focus);
+  }
+  document.addEventListener("click", function(e){
+    var a = e.target.closest("a[data-nav]");
+    if(!a) return;
+    var id = a.getAttribute("href").slice(1);
+    if(location.hash.slice(1) === id){ e.preventDefault(); show(id, true); }
+    // si cambia el hash, lo maneja hashchange
+  });
+  window.addEventListener("hashchange", function(){ fromHash(true); });
+  fromHash(false);
+
+  // ---- Tamaño de texto ----
+  var scale = 100, MIN=90, MAX=160, STEP=10;
+  function applyScale(){
+    document.documentElement.style.setProperty("--fs", scale + "%");
+    try{ localStorage.setItem("tsb_fs", String(scale)); }catch(_){}
+  }
+  try{ var s = parseInt(localStorage.getItem("tsb_fs"),10); if(!isNaN(s)) { scale = Math.min(MAX,Math.max(MIN,s)); } }catch(_){}
+  applyScale();
+  document.getElementById("tPlus").addEventListener("click", function(){ scale=Math.min(MAX,scale+STEP); applyScale(); });
+  document.getElementById("tMinus").addEventListener("click", function(){ scale=Math.max(MIN,scale-STEP); applyScale(); });
+  document.getElementById("tReset").addEventListener("click", function(){ scale=100; applyScale(); });
+
+  // ---- Alto contraste ----
+  var cBtn = document.getElementById("contrast");
+  function setContrast(on){
+    document.documentElement.setAttribute("data-contrast", on ? "alto" : "normal");
+    cBtn.setAttribute("aria-pressed", on ? "true":"false");
+    try{ localStorage.setItem("tsb_contrast", on ? "1":"0"); }catch(_){}
+  }
+  var startC = false;
+  try{ startC = localStorage.getItem("tsb_contrast") === "1"; }catch(_){}
+  setContrast(startC);
+  cBtn.addEventListener("click", function(){
+    setContrast(document.documentElement.getAttribute("data-contrast") !== "alto");
+  });
+
+  // ---- Validación de formulario clara (Comprensible) ----
+  var form = document.getElementById("form");
+  if(form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var ok = true, firstBad = null;
+      function mark(fieldId, valid){
+        var f = document.getElementById(fieldId);
+        if(valid){ f.classList.remove("invalid"); f.querySelector("input,select,textarea").setAttribute("aria-invalid","false"); }
+        else{ f.classList.add("invalid"); var c=f.querySelector("input,select,textarea"); c.setAttribute("aria-invalid","true"); if(!firstBad) firstBad=c; ok=false; }
+      }
+      var nombre = document.getElementById("nombre").value.trim();
+      var correo = document.getElementById("correo").value.trim();
+      var interes = document.getElementById("interes").value;
+      mark("f-nombre", nombre.length > 1);
+      mark("f-correo", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo));
+      mark("f-interes", interes !== "");
+      var okMsg = document.getElementById("ok");
+      if(ok){ okMsg.style.display="block"; form.reset(); okMsg.focus && okMsg.focus(); }
+      else{ okMsg.style.display="none"; if(firstBad) firstBad.focus(); }
+    });
+  }
+})();
+</script>
+</body>
+</html>
